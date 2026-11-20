@@ -1,6 +1,6 @@
-# imagenudge-lite: check running Docker containers for newer images, read-only
+# imagenudge-lite: Docker image update checker for running containers, read-only
 
-imagenudge-lite helps with a quick "which of my containers are behind?" check on one Docker host: it lists the running containers through the local Docker socket, asks the registry whether each container's tag now points to a different image digest, and whether a newer version tag exists (for example `1.25.1` -> `1.26.0`). It prints a plain-text list and exits `1` when something can be updated, so it fits a cron job. It never pulls, restarts or edits anything. One file, Python 3.9+ standard library only, MIT.
+imagenudge-lite helps with a Docker image update checker for a quick "which of my containers are behind?" check on one Docker host: it lists the running containers through the local Docker socket, asks the registry whether each container's tag now points to a different image digest, and whether a newer version tag exists (for example `1.25.1` -> `1.26.0`). It prints a plain-text list and exits `1` when something can be updated, so it fits a cron job. It never pulls, restarts or edits anything. One file, Python 3.9+ standard library only, MIT.
 
 Need compose-file scanning, webhook / ntfy / SMTP email alerts, or JSON output? That is the full [ImageNudge](https://py-forge.com/products/imagenudge-container-update-notifier?utm_source=github&utm_medium=readme&utm_campaign=imagenudge-lite) (one-time payment, yours to keep, no subscription). A table later in this README lists what lite does and what the paid tool adds. Or get every PyForge tool, current and future, with the [All-Access Pass](https://py-forge.com/pass?utm_source=github&utm_medium=readme&utm_campaign=imagenudge-lite) ($99, one payment).
 
@@ -8,6 +8,8 @@ Need compose-file scanning, webhook / ntfy / SMTP email alerts, or JSON output? 
 - Only `GET` requests to the Docker socket (`/containers/json`, `/images/<id>/json`). Registry checks are `HEAD` on the manifest plus the tag list; no image layers are downloaded.
 - Public images only, anonymous access (Docker Hub, and registries that hand out anonymous pull tokens, e.g. public `ghcr.io` and `quay.io` images). No credentials are read or sent.
 - Flags: `--socket`, `--no-tags`, `--demo`, `--timeout`, `--version`. After `pip install`, use `imagenudge-lite` in place of `python3 imagenudge_lite.py`.
+
+<!-- TODO: terminal GIF of `--demo` or a live run is still missing. Place it under the intro, before Install. Do not invent a GIF. -->
 
 ## Install
 
@@ -38,7 +40,7 @@ python3 imagenudge_lite.py --demo
 # Nothing was pulled or restarted. Review the changelog, then update when you choose.
 ```
 
-## Check the containers on this Docker host
+## Check running Docker containers for newer images
 
 ```bash
 python3 imagenudge_lite.py
@@ -50,7 +52,7 @@ python3 imagenudge_lite.py --no-tags                             # digests only,
 
 If `DOCKER_HOST` is set to a `unix://` path it is used as the default socket. TCP / SSH Docker hosts are not supported by the lite version.
 
-## How an update is detected
+## How a Docker image update is detected
 
 | Status | Meaning |
 | --- | --- |
