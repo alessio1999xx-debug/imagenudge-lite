@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "imagenudge-lite"
+version = "0.1.0"
+description = "Check running Docker containers for newer images: digest changes and newer version tags. Read-only, no pulls."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [{name = "Alessio Auretto"}]
+keywords = [
+  "docker",
+  "docker-image",
+  "container-updates",
+  "image-update-checker",
+  "self-hosted",
+  "homelab",
+  "docker-registry",
+  "cli",
+  "stdlib",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: System :: Monitoring",
+  "Topic :: System :: Systems Administration",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/alessio1999xx-debug/imagenudge-lite"
+"Pro version" = "https://py-forge.com/products/imagenudge-container-update-notifier"
+
+[project.scripts]
+imagenudge-lite = "imagenudge_lite:main"
+
+[tool.setuptools]
+py-modules = ["imagenudge_lite"]
