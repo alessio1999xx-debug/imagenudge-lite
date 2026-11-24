@@ -40,8 +40,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/alessio1999xx-debug/imagenudge-lite"
-"Pro version" = "https://py-forge.com/products/imagenudge-container-update-notifier"
+Homepage = "https://py-forge.com/products/imagenudge-container-update-notifier?utm_source=pypi&utm_medium=project_page&utm_campaign=imagenudge-lite"
+Source = "https://github.com/alessio1999xx-debug/imagenudge-lite"
+Repository = "https://github.com/alessio1999xx-debug/imagenudge-lite"
 
 [project.scripts]
 imagenudge-lite = "imagenudge_lite:main"
