@@ -1,4 +1,4 @@
-# imagenudge-lite: Docker image update checker for running containers, read-only
+# imagenudge-lite: Docker image update checker that finds outdated containers, read-only
 
 imagenudge-lite helps with a Docker image update checker for a quick "which of my containers are behind?" check on one Docker host: it lists the running containers through the local Docker socket, asks the registry whether each container's tag now points to a different image digest, and whether a newer version tag exists (for example `1.25.1` -> `1.26.0`). It prints a plain-text list and exits `1` when something can be updated, so it fits a cron job. It never pulls, restarts or edits anything. One file, Python 3.9+ standard library only, MIT.
 
@@ -9,9 +9,13 @@ Need compose-file scanning, webhook / ntfy / SMTP email alerts, or JSON output? 
 - Public images only, anonymous access (Docker Hub, and registries that hand out anonymous pull tokens, e.g. public `ghcr.io` and `quay.io` images). No credentials are read or sent.
 - Flags: `--socket`, `--no-tags`, `--demo`, `--timeout`, `--version`. After `pip install`, use `imagenudge-lite` in place of `python3 imagenudge_lite.py`.
 
-<!-- TODO: terminal GIF of `--demo` or a live run is still missing. Place it under the intro, before Install. Do not invent a GIF. -->
+## Demo: check Docker containers for image updates
 
-## Install
+![Real terminal recording of imagenudge-lite --demo: two containers have a newer image (new digest or newer version tag), one is up to date, one locally built image is skipped; exit code 1.](docs/demo.gif)
+
+Real run of the current `imagenudge_lite.py --demo` (built-in sample data, so no Docker socket and no network were used for this recording). Recorded with asciinema, rendered with agg; the raw recording is in [docs/demo.cast](docs/demo.cast).
+
+## Install (pip or one file)
 
 ```bash
 pip install imagenudge-lite
@@ -52,7 +56,7 @@ python3 imagenudge_lite.py --no-tags                             # digests only,
 
 If `DOCKER_HOST` is set to a `unix://` path it is used as the default socket. TCP / SSH Docker hosts are not supported by the lite version.
 
-## How a Docker image update is detected
+## How a Docker image update is detected (digest and version tag)
 
 | Status | Meaning |
 | --- | --- |
@@ -63,7 +67,7 @@ If `DOCKER_HOST` is set to a `unix://` path it is used as the default socket. TC
 
 Newer tags keep the same style and suffix as the tag you run: `1.25.1` is compared with `X.Y.Z` tags, `16-alpine` with `N-alpine`, `v2.10.4` with `vX.Y.Z`. Tags like `latest` or `stable` only get the digest check. The lite version reads up to 3 pages (3,000 tags) of the tag list, so on repositories with huge tag lists the "newer tag" suggestion can be lower than the real newest one. Multi-arch images are compared by their index digest, which is what `docker pull` by tag records locally.
 
-## Exit codes for cron
+## Exit codes: Docker update check in cron
 
 | Exit code | Meaning |
 | --- | --- |
